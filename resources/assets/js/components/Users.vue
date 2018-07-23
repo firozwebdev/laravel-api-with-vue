@@ -9,13 +9,13 @@
                <th>Email</th>
                <th>Action</th>
            </tr>
-           <tr v-for="user in users">
+           <tr v-for="(user, index) in users">
                <td>{{ user.id }}</td>
                <td>{{ user.name }}</td>
                <td>{{ user.email }}</td>
                <td>
-                   <a href="" class="btn btn-primary">Edit</a>
-                   <a href="" class="btn btn-danger">Delete</a>
+                   <a :href="'/users/'+user.id+'/edit'" class="btn btn-primary">Edit</a>
+                   <a href="" class="btn btn-danger" @click.prevent="deleteUser(user.id, index)">Delete</a>
                </td>
            </tr>
        </table>
@@ -42,6 +42,14 @@
                 axios.get('/api/users').then( response => {
                    this.users = response.data;
                 })
+            },
+            deleteUser(id,index){
+                 axios.delete('/api/users/'+id).then( response => {
+                   console.log(response);
+                   this.users.splice(index)
+                }).catch( error => {
+                    console.log(error);
+                });
             }
         }
     }

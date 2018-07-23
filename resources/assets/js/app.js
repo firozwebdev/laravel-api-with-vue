@@ -19,6 +19,7 @@ window.axios = require('axios');
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('user-component', require('./components/Users.vue'));
 Vue.component('create-component', require('./components/Create.vue'));
+Vue.component('edit-component', require('./components/Edit.vue'));
 
 const app = new Vue({
     el: '#app'

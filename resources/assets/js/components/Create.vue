@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-       <h2>Users Listing</h2>
+       <h2>Create User</h2>
        <form action="/users" method="post" class="form-horizontal">
             <div class="form-group">
                 <label for="name">Name</label>
