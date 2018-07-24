@@ -13,6 +13,7 @@
                <td>{{ user.id }}</td>
                <td>{{ user.name }}</td>
                <td>{{ user.email }}</td>
+               <td>{{ user.image }}</td>
                <td>
                    <a :href="'/users/'+user.id+'/edit'" class="btn btn-primary">Edit</a>
                    <a href="" class="btn btn-danger" @click.prevent="deleteUser(user.id, index)">Delete</a>
@@ -30,7 +31,8 @@
                 user: {
                     id: 0,
                     name: '',
-                    email: ''
+                    email: '',
+                    
                 }
             }
         },

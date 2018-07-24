@@ -1,7 +1,7 @@
 <template>
     <div class="container">
        <h2>Edit User</h2>
-       <form action="/users" method="post" class="form-horizontal">
+       <form action="/users" method="put" class="form-horizontal" >
             <div class="form-group">
                 <label for="name">Name</label>
                 <input class="form-control" type="text" name="name" id="" placeholder="Enter name" v-model="name">
@@ -13,7 +13,11 @@
                 
             </div>
 
-           
+            <div class="form-group">
+                <label for="email">Image</label>
+                 <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                
+            </div>
 
             <div class="form-group">
                <button type="submit" class="btn btn-default" @click.prevent="UpdateUser()">Update</button>
@@ -27,9 +31,11 @@
         props: ['id'],
         data(){
             return {
+               
                name: '',
                email: '',
-              
+               file: '',
+               
             }
         },
         mounted(){
@@ -37,8 +43,9 @@
                    
             }).then( response => {
                var user = response.data;
-                   this.name = user.name;
-                   this.email = user.email;
+                    
+                    this.name = user.name;
+                    this.email = user.email;
                   
             }).catch( error => {
                 console.log(error);
@@ -46,15 +53,33 @@
         },
        
         methods: {
+            handleFileUpload(){
+                this.file = this.$refs.file.files[0];
+            },
+
             UpdateUser(){
-              axios.put('/api/users/'+this.id, {
-                  name: this.name,
-                  email: this.email
-              }).then(response => {
-                  console.log(response);
-              }).catch(error => {
-                  console.log(error);
-              });
+                console.log(this.name);
+
+                let formData = new FormData();
+                formData.append('name',this.name);
+                formData.append('email',this.email);
+                formData.append('password',this.password);
+                formData.append('image', this.file, this.file.name);
+               
+
+               
+                axios.put('/api/users/'+this.id,formData, {
+                   
+                    
+                    headers: {'Content-Type': 'multipart/form-data'},
+                }).then( response => {
+                   console.log(response);
+                }).catch( error => {
+                    console.log(error);
+                })
+
+               
+              
                
             }
         }

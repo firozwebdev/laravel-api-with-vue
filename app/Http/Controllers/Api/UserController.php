@@ -37,14 +37,30 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+        if($request->hasfile('image'))
+        {
+           $file = $request->file('image');
+           $name=time().$file->getClientOriginalName();
+           $file->move(public_path().'/img/', $name);
+        }else{
+            $name = '';
+        }
+
+
         $user = new User();
         $user->name = $request->get('name');
         $user->email = $request->get('email');
+        $user->image = $name;
         $user->password = bcrypt($request->get('password'));
 
         $user->save();
 
         return response()->json($user);
+
+        
+
+       
     }
 
     /**
@@ -82,9 +98,21 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->name = $request->get('name');
         $user->email = $request->get('email');
+        
+        
+        if($request->hasfile('image'))
+        {
+           $file = $request->file('image');
+           $name = time().$file->getClientOriginalName();
+           $file->move(public_path().'/img/', $name);
+           $user->image = $name;
+        }
 
-        $user->save();
+       
+        $user->update();
         return response()->json($user);
+        
+        
     }
 
     /**

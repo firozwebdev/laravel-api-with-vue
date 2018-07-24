@@ -14,6 +14,12 @@
             </div>
 
             <div class="form-group">
+                <label for="email">Image</label>
+                 <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                
+            </div>
+
+            <div class="form-group">
                 <label for="password">Password</label>
                 <input class="form-control"  type="text" name="password" id="" placeholder="Password"  v-model="password">
             </div>
@@ -29,22 +35,34 @@
     export default {
         data(){
             return {
+               users: [], 
                name: '',
                email: '',
+               file: '',
                password: ''
             }
         },
        
         methods: {
+            handleFileUpload(){
+                this.file = this.$refs.file.files[0];
+            },
+
             addNewUser(){
-                console.log(this.name);
-                console.log(this.email);
-                console.log(this.password);
-                axios.post('/api/users', {
-                    name: this.name,
-                    email: this.email,
-                    password: this.password,
+                
+
+                let formData = new FormData();
+                formData.append('name',this.name);
+                formData.append('email',this.email);
+                formData.append('password',this.password);
+            
+                formData.append('image', this.file, this.file.name);
+                
+                axios.post('/api/users', formData,{
+                    
+                    headers: {'Content-Type': 'multipart/form-data'},
                 }).then( response => {
+                   window.location.href='/users';
                    console.log(response);
                 }).catch( error => {
                     console.log(error);
