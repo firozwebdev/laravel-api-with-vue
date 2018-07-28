@@ -93,9 +93,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
+        //$user = User::findOrFail($id);
         $user->name = $request->get('name');
         $user->email = $request->get('email');
         

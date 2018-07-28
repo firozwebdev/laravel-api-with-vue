@@ -43,6 +43,7 @@
                    
             }).then( response => {
                var user = response.data;
+               
                     
                     this.name = user.name;
                     this.email = user.email;
@@ -63,14 +64,14 @@
                 let formData = new FormData();
                 formData.append('name',this.name);
                 formData.append('email',this.email);
-                formData.append('password',this.password);
+               // formData.append('password',this.password);
                 formData.append('image', this.file, this.file.name);
+                formData.append('_method', 'PUT'); // Sending put method to laravel though we use post method in axios below
                
 
                
-                axios.put('/api/users/'+this.id,formData, {
+                axios.post('/api/users/'+this.id,formData, {  //axios.put method sends Laravel null value or Laravel put method can not take value from axiox put request.
                    
-                    
                     headers: {'Content-Type': 'multipart/form-data'},
                 }).then( response => {
                    console.log(response);
